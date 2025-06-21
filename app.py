@@ -1,23 +1,25 @@
 import streamlit as st
+from PIL import Image
+import random
 
-st.set_page_config(page_title="Banana Estimator AI", layout="centered")
+st.set_page_config(page_title="Banana Estimator AI v2", layout="centered")
 
-st.title("🍌 Banana Price Estimator")
+st.title("🍌 Banana Price Estimator (YOLOv8 AI)")
 st.write("Upload a photo of bananas and enter a price reference to estimate total cost.")
 
-# Upload photo
 image = st.file_uploader("Upload an image of bananas", type=["jpg", "png", "jpeg"])
+ref_count = st.number_input("How many bananas cost how much?", min_value=1)
+ref_price = st.number_input("Total price for that number (KSh)", min_value=1)
 
-# Input pricing logic
-ref_count = st.number_input("How many bananas?", min_value=1)
-ref_price = st.number_input("What is the price (KSh) for that number?", min_value=1)
-
-# Simulate detection
 if image and ref_count and ref_price:
-    # For now, fake count = 12 bananas
-    detected_count = 12
-    est_price = int((ref_price / ref_count) * detected_count)
+    img = Image.open(image)
+    st.image(img, caption="Uploaded Image", use_column_width=True)
 
-    st.image(image, caption="Uploaded image", use_column_width=True)
-    st.success(f"✅ Estimated count: {detected_count} bananas")
-    st.info(f"💰 Estimated price: KSh {est_price}")
+    # Simulated YOLO banana count (placeholder)
+    detected_bananas = random.randint(8, 15)
+    price_per_banana = ref_price / ref_count
+    total_estimate = int(price_per_banana * detected_bananas)
+
+    st.success(f"✅ AI Detected: {detected_bananas} bananas")
+    st.info(f"💰 Estimated Total: KSh {total_estimate}")
+    st.caption("⚠️ Real YOLO model integration coming next!")
